@@ -1,0 +1,45 @@
+package hexgame;
+
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
+import javafx.scene.shape.Polygon;
+import javafx.stage.Stage;
+
+public class board extends Application {
+    private boolean isWhiteTurn = true; // Başlangıçta beyazın sırası
+    final static double r = 23; // Hexagonun iç yarıçapı (köşeden merkeze)
+    final static double n = Math.sqrt(r * r * 0.75); // Hexagonun iç yarıçapı (merkezden kenar ortasına)
+    final static double TILE_HEIGHT = 2 * r;
+    final static double TILE_WIDTH = 2 * n;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        Pane root=new Pane();
+        Scene scene=new Scene(root,600,800);
+        stage.setScene(scene);
+
+        int rowCount = 5; // Dikey satır sayısı
+        int tilesPerRow = rowCount; // Yatayda kare sayısı
+        int xStartOffset = (int) (root.getWidth() / 4); // Başlangıç x koordinatı
+        int yStartOffset = (int) (root.getHeight() / 4); // Başlangıç y koordinatı
+
+        for (int x = 0; x < tilesPerRow; x++) {
+            for (int y = 0; y < rowCount; y++) {
+                double xCoord = x * TILE_WIDTH + (y * n + xStartOffset);
+                double yCoord = y * TILE_HEIGHT * 0.75 + yStartOffset;
+
+                Polygon tile = new Tile(xCoord, yCoord);
+                root.getChildren().add(tile);
+            }
+        }
+stage.show();
+    }
+}
