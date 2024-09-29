@@ -1,0 +1,52 @@
+package hexgame;
+
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
+
+public class Tile extends Polygon {
+    private boolean isClicked = false; // Başlangıçta her kare tıklanmamış olarak işaretlenmiş
+
+    // Sabitlerin tanımlanması
+    private final static double r = 23; // Hexagonun iç yarıçapı (köşeden merkeze)
+    private final static double n = Math.sqrt(r * r * 0.75); // Hexagonun iç yarıçapı (merkezden kenar ortasına)
+    private final static double TILE_HEIGHT = 2 * r;
+    private final static double TILE_WIDTH = 2 * n;
+    private boolean isWhiteTurn = true; // Başlangıçta beyazın sırası
+
+    public Tile(double x, double y) {
+        // Hexagonu oluştur
+        getPoints().addAll(
+                x, y,
+                x, y + r,
+                x + n, y + r * 1.5,
+                x + TILE_WIDTH, y + r,
+                x + TILE_WIDTH, y,
+                x + n, y - r * 0.5
+        );
+        // Özellikleri ayarla
+        setFill(Color.GREY);
+        setStrokeWidth(2);
+        setStroke(Color.BLACK);
+
+        // Tıklamayı dinle
+        setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                changeColor();
+            }
+        });
+    }
+
+     void changeColor() {
+        // Eğer kareye daha önce tıklanmadıysa
+        if (!isClicked) {
+            // Sıradaki oyuncunun rengini belirle ve kareyi boyayıp sırayı değiştir
+            Color color = isWhiteTurn ? Color.WHITE : Color.BLACK;
+            setFill(color);
+            isWhiteTurn = !isWhiteTurn;
+            isClicked = true; // Kareye tıklanmış işaretini ver
+        }
+    }
+}
