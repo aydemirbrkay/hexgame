@@ -1,0 +1,15 @@
+package hexgame;
+
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+
+public class ClickHandler implements EventHandler<MouseEvent> {
+    private Tile tile;
+
+        @Override
+        public void handle(MouseEvent event) {
+            tile.changeColor();
+        }
+    }
+
+
